@@ -75,9 +75,11 @@ export interface TripBundle {
 
 // Visa Information
 export interface VisaInfo {
-    destination_country: string;
+    destination: string;
+    nationality: string;
     visa_required: boolean;
     visa_type: string | null;
+    passport_validity: string | null;
     notes: string | null;
 }
 

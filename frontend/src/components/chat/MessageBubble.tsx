@@ -21,6 +21,7 @@ import {
     shadows,
 } from "../../theme/colors";
 import { RecommendationCard } from "./RecommendationCard";
+import { VisaInfoCard } from "./VisaInfoCard";
 
 interface MessageBubbleProps {
     message: Message;
@@ -97,6 +98,11 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                 <Text style={textStyle}>{message.content}</Text>
             </View>
 
+            {/* Visa info - prominently displayed first */}
+            {message.visaInfo && (
+                <VisaInfoCard visaInfo={message.visaInfo} />
+            )}
+
             {/* Show recommendations if present */}
             {message.recommendations && message.recommendations.length > 0 && (
                 <View style={styles.recommendationsContainer}>
@@ -107,40 +113,6 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                             index={index + 1}
                         />
                     ))}
-                </View>
-            )}
-
-            {/* Visa info badge */}
-            {message.visaInfo && (
-                <View style={styles.visaContainer}>
-                    <View
-                        style={[
-                            styles.visaBadge,
-                            {
-                                backgroundColor: message.visaInfo.visa_required
-                                    ? colors.warningMuted
-                                    : colors.successMuted,
-                            },
-                        ]}
-                    >
-                        <Text
-                            style={[
-                                styles.visaText,
-                                {
-                                    color: message.visaInfo.visa_required
-                                        ? colors.warning
-                                        : colors.success,
-                                },
-                            ]}
-                        >
-                            {message.visaInfo.visa_required ? "🛂 Visa Required" : "✅ No Visa Needed"}
-                        </Text>
-                        {message.visaInfo.visa_type && (
-                            <Text style={styles.visaDetail}>
-                                Type: {message.visaInfo.visa_type}
-                            </Text>
-                        )}
-                    </View>
                 </View>
             )}
 
@@ -159,22 +131,6 @@ const styles = StyleSheet.create({
     recommendationsContainer: {
         marginTop: spacing.md,
         gap: spacing.sm,
-    },
-    visaContainer: {
-        marginTop: spacing.sm,
-    },
-    visaBadge: {
-        borderRadius: borderRadius.md,
-        padding: spacing.sm,
-    },
-    visaText: {
-        ...typography.bodySmall,
-        fontWeight: "600",
-    },
-    visaDetail: {
-        ...typography.caption,
-        color: colors.textSecondary,
-        marginTop: spacing.xs,
     },
     timestamp: {
         ...typography.caption,
